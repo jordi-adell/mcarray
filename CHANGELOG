@@ -1,0 +1,33 @@
+McARRAY project Change Log
+
+## [Unreleased]
+
+## [0.2.0 ] - 2016-10-05
+
+## [0.1.8] - 2014-11-17
+
+### Changes
+
+- expose binauralmasking configuration to avoid dependencies on internals
+  This is to avoid a dependency on FastBinauralMasking
+- WIPP a necessary dependency for dependant projects
+- Detection threshold moved down to +6dB from +20dB
+- Added a function to calculate array BW
+- Some public methods to acces distances and coordinate vectors in Array Description
+- Propagate ArrayDescription to the rest of the code
+- Added a class to manage Array Description
+  This class stores the ID, the NAME and position in 3D
+  space for each element of the array.
+  It can also be used to compute distances between array elements
+  in cartesian space.
+
+- Contributors: Jordi Adell
+
+## [0.1.7] - 2014-11-10
+
+### Changes
+
+- Including BinauralLocalisation instead of the old SoundLocalisation
+
+- Contributors: Jordi Adell
+
