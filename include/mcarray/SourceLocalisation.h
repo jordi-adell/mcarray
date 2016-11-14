@@ -60,7 +60,7 @@ class SourceLocalisation : public dsp::STFTAnalysis
 	SignalVector _subBandWeights; /**< weights to indicate which subbands are more qualified for localisation */
 	std::unique_ptr<BeamformingSeparationAndLocalisation> _impl; /**< pointer to the implementation of beamforming localisation and separation */
 
-	virtual void processParametrisation(SignalVector &analysisFrames, int analysisLength,
+	virtual void processParametrisation(std::vector<double*> &analysisFrames, int analysisLength,
 					    std::vector<double*> &dataChannels, int dataLength);
 	/**
 	   * @brief allocate Allocates memory.

@@ -42,6 +42,24 @@
 namespace mca
 {
 
+class null_deleter
+{
+    null_deleter()
+    {
+      return;
+    }
+  public:
+    ~null_deleter()
+    {
+      return;
+    }
+    void operator()(BaseType* v)
+    {
+      return;
+    }
+    friend class FreqGCCBinauralLocalisation;
+    friend class TemporalGCCBinauralLocalisation;
+};
 
 //----------------- Temporal GCC Binaural Localisation ---------------------------------------------------------------
 
@@ -265,7 +283,19 @@ double TemporalGCCBinauralLocalisation::samples2Degrees(int delay, int ndelays)
     return degrees;
 }
 
-BaseType TemporalGCCBinauralLocalisation::setPowerFloor(std::vector<double*> &analysisFrames, int analysisLength,
+BaseType TemporalGCCBinauralLocalisation::setPowerFloor(std::vector<BaseType*> &analysisFrames, int analysisLength, int nchannels, int sampleRate)
+{
+  SignalVector af;
+  null_deleter deleter;
+  for (size_t i = 0; i < analysisFrames.size(); ++i)
+  {
+    af.push_back(boost::shared_array<double>(analysisFrames[i], deleter));
+  }
+  setPowerFloor(af, analysisLength, nchannels, sampleRate);
+}
+
+
+BaseType TemporalGCCBinauralLocalisation::setPowerFloor(SignalVector &analysisFrames, int analysisLength,
 							int nchannels, int sampleRate)
 {
     int neededSamples = _durationToEstimatePowerFloor*sampleRate;
@@ -341,23 +371,7 @@ FreqGCCBinauralLocalisation::FreqGCCBinauralLocalisation(int sampleRate, ArrayDe
     _gcc.precomputeTauMatrix(_samplesDelay.get(), _numSteps, getAnalysisLength()/2, _gcc.ONESIDEDFFT);
 }
 
-class null_deleter
-{
-    null_deleter()
-    {
-      return;
-    }
-  public:
-    ~null_deleter()
-    {
-      return;
-    }
-    void operator()(BaseType* v)
-    {
-      return;
-    }
-    friend class FreqGCCBinauralLocalisation;
-};
+
 
 BaseType FreqGCCBinauralLocalisation::setPowerFloor(std::vector<BaseType*> &analysisFrames, int analysisLength, int nchannels, int sampleRate)
 {

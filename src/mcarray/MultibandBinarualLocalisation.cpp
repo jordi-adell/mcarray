@@ -30,6 +30,25 @@
 
 namespace mca{
 
+class null_deleter
+{
+    null_deleter()
+    {
+      return;
+    }
+  public:
+    ~null_deleter()
+    {
+      return;
+    }
+    void operator()(BaseType* v)
+    {
+      return;
+    }
+    friend class MultibandBinarualLocalisation;
+};
+
+
 MultibandBinarualLocalisation::MultibandBinarualLocalisation(int sampleRate, ArrayDescription microphonePositions, int nbins, bool usePowerFloor) :
     SoundLocalisationImpl(microphonePositions),
     dsp::SubBandSTFTAnalysis(nbins,
@@ -93,8 +112,19 @@ MultibandBinarualLocalisation::MultibandBinarualLocalisation(int sampleRate, Arr
     //        _plot.reset(new Gnuplot("lines"));
 }
 
+BaseType MultibandBinarualLocalisation::setPowerFloor(std::vector<BaseType*> &analysisFrames, int analysisLength, int nchannels, int sampleRate)
+{
+  null_deleter deleter;
+  SignalVector af;
+  for (size_t i = 0; i < analysisFrames.size(); ++i)
+  {
+    af.push_back(boost::shared_array<double>(analysisFrames[i], deleter));
+  }
+  setPowerFloor(af, analysisLength, nchannels, sampleRate);
+}
 
-BaseType MultibandBinarualLocalisation::setPowerFloor(std::vector<double*> &analysisFrames, int analysisLength, int nchannels, int sampleRate)
+
+BaseType MultibandBinarualLocalisation::setPowerFloor(SignalVector &analysisFrames, int analysisLength, int nchannels, int sampleRate)
 {
     int neededSamples = _durationToEstimatePowerFloor*sampleRate;
     double power = dsp::SignalPower::FFTPower(analysisFrames, analysisLength)*(2*analysisLength-2);
@@ -118,6 +148,17 @@ void MultibandBinarualLocalisation::processSetup(std::vector<double *> &analysis
     wipp::setZeros(_energyInDOA.get(), _numSteps);
     wipp::setZeros(_binDOAs.get(),     _numberOfBins);
     wipp::setZeros(_energies.get(),     _numberOfBins);
+}
+
+void MultibandBinarualLocalisation::processOneSubband(std::vector<BaseType*> &analysisFrame, int length, int bin)
+{
+    null_deleter deleter;
+    SignalVector af;
+    for (size_t i = 0; i < analysisFrame.size(); ++i)
+    {
+      af.push_back(boost::shared_array<double>(analysisFrame[i], deleter));
+    }
+    processOneSubband(af, length, bin);
 }
 
 void MultibandBinarualLocalisation::processOneSubband(const SignalVector &analysisFrame, int length, int bin)

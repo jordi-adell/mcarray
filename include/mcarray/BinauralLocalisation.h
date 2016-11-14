@@ -179,7 +179,8 @@ class TemporalGCCBinauralLocalisation : public SoundLocalisationImpl, public dsp
 	   * @param sampleRate  sampleRate
 	   * @return   returns the power calculated.
 	   */
-	BaseType setPowerFloor(std::vector<double*> &analysisFrames, int analysisLength, int nchannels, int sampleRate);
+	virtual BaseType setPowerFloor(SignalVector &analysisFrames, int analysisLength, int nchannels, int sampleRate);
+	BaseType setPowerFloor(std::vector<BaseType*> &analysisFrames, int analysisLength, int nchannels, int sampleRate);
 
 };
 

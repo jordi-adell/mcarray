@@ -20,10 +20,11 @@
 * along with MCARRAY.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef __MULTIBANDBINARUALLOCALISATION_H
-#define __MULTIBANDBINARUALLOCALISATION_H
+#ifndef __MULTIBANDBINARUALLOCALISATION_H_
+#define __MULTIBANDBINARUALLOCALISATION_H_
 
 #include "BinauralLocalisation.h"
+
 #include <mcarray/microhponeArrayHelpers.h>
 
 #include <dspone/filter/FilterBank.h>
@@ -70,13 +71,17 @@ class MultibandBinarualLocalisation : public SoundLocalisationImpl, public dsp::
 
 	virtual void processSetup(std::vector<double *> &analysisFrames, int analysisLength,
 				  std::vector<double *> &dataChannels, int dataLength);
-	virtual void processOneSubband(const SignalVector &analysisFrame, int length, int bin);
+	void processOneSubband(const SignalVector &analysisFrame, int length, int bin);
+	virtual void processOneSubband(std::vector<double*> &analysisFrame, int length, int bin);
+
 	virtual void processSumamry(std::vector<double *> &analysisFrames, int analysisLength,
 				    std::vector<double *> &dataChannels, int dataLength);
 
 	BaseType calculateLinearPower(const BaseTypeC *left, const BaseTypeC *right, int length);
 	BaseType calculateLogPower(const BaseTypeC *left, const BaseTypeC *right, int length);
 	BaseType setPowerFloor(std::vector<double*> &analysisFrames, int analysisLength, int nchannels, int sampleRate);
+	BaseType setPowerFloor(SignalVector &analysisFrames, int analysisLength, int nchannels, int sampleRate);
+
 
 	inline int angle2DOAidx(float angle) const
 	{

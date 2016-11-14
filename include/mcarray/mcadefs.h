@@ -46,9 +46,9 @@
 #include <stdint.h>
 
 #include <vector>
-#include <boost/shared_array.hpp>
-
 #include <mcarray/complex.h>
+
+#include <boost/shared_array.hpp>
 
 namespace mca{
 
@@ -73,8 +73,10 @@ typedef std::vector<SignalPtr64> SignalVector64;
 typedef std::vector<SignalCPtr64> SignalCVector64;
 
 // 16 bits integer
-typedef signed short Ipp16s_;
-typedef Ipp16s_ BaseType16s;
+typedef signed short BaseType16s;
+typedef boost::shared_array<BaseType16s> SignalPtr16s;
+typedef std::vector<SignalPtr16s> SignalVector16s;
+
 
 // Default types
 typedef BaseType64 BaseType;

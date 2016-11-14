@@ -30,6 +30,24 @@
 
 namespace mca {
 
+class null_deleter
+{
+    null_deleter()
+    {
+      return;
+    }
+  public:
+    ~null_deleter()
+    {
+      return;
+    }
+    void operator()(BaseType* v)
+    {
+      return;
+    }
+    friend class SourceSeparationAndLocalisation;
+};
+
 SourceSeparationAndLocalisation::SourceSeparationAndLocalisation(int sampleRate, ArrayDescription microphonePositions, unsigned int numOfSources, bool usePowerFloor) :
   STFT(microphonePositions.size(), calculateOrderFromSampleRate(sampleRate, _frameRate)),
   _sampleRate(sampleRate)
@@ -44,6 +62,19 @@ SourceSeparationAndLocalisation::SourceSeparationAndLocalisation(int sampleRate,
     _denoisedFrames.push_back(SignalPtr(new BaseType[getAnalysisLength()]));
   }
 }
+
+void SourceSeparationAndLocalisation::processParametrisation(std::vector<double *> &analysisFrames, int analysisLength,
+							     std::vector<double *> &dataChannels, int dataLength)
+{
+  SignalVector sf;
+  null_deleter deleter;
+  for (auto it = analysisFrames.begin(); it != analysisFrames.end(); ++it)
+  {
+    sf.push_back(boost::shared_array<double>(*it, deleter));
+  }
+  processParametrisation(sf, analysisLength, dataChannels, dataLength);
+}
+
 
 void SourceSeparationAndLocalisation::processParametrisation(
     SignalVector &analysisFrames, int analysisLength,

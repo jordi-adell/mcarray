@@ -30,6 +30,24 @@
 namespace mca {
 
 
+class null_deleter
+{
+    null_deleter()
+    {
+      return;
+    }
+  public:
+    ~null_deleter()
+    {
+      return;
+    }
+    void operator()(BaseType* v)
+    {
+      return;
+    }
+    friend class SourceLocalisation;
+};
+
 SourceLocalisation::SourceLocalisation(int sampleRate, ArrayDescription microphonePositions, unsigned int numOfSources, bool usePowerFloor) :
   STFTAnalysis(microphonePositions.size(), dsp::ShortTimeProcess::calculateOrderFromSampleRate(sampleRate, _frameRate)),
   _sampleRate(sampleRate)
@@ -43,7 +61,7 @@ SourceLocalisation::SourceLocalisation(int sampleRate, ArrayDescription micropho
   }
 }
 
-void SourceLocalisation::processParametrisation(SignalVector &analysisFrames, int analysisLength,
+void SourceLocalisation::processParametrisation(std::vector<double *> &analysisFrames, int analysisLength,
 						std::vector<double *> &dataChannels, int dataLength)
 {
   // Apply noise reduction
@@ -51,7 +69,13 @@ void SourceLocalisation::processParametrisation(SignalVector &analysisFrames, in
     //  _noiseReduction.getWienerCoefs(_wienerCoefs);
 
   // Sound Localisation
-  _impl->processFrameLocalisation(analysisFrames, _subBandWeights);
+  std::vector<boost::shared_array<double> > af;
+  null_deleter deleter;
+  for (auto it = analysisFrames.begin(); it != analysisFrames.end(); ++it)
+  {
+    af.push_back(boost::shared_array<double>(*it, deleter));
+  }
+  _impl->processFrameLocalisation(af, _subBandWeights);
   //          _impl->processFrameLocalisation(_denoisedFrames, _wienerCoefs);
 
 }

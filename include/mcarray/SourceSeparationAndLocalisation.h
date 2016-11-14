@@ -67,6 +67,9 @@ class SourceSeparationAndLocalisation : public dsp::STFT
 
 	virtual void processParametrisation(SignalVector &analysisFrames, int analysisLength,
 					    std::vector<double*> &dataChannels, int dataLength);
+	virtual void processParametrisation(std::vector<double*> &analysisFrames, int analysisLength,
+					    std::vector<double*> &dataChannels, int dataLength);
+
 	/**
 	   * @brief allocate Allocates memory.
 	   */
