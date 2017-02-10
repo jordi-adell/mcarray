@@ -27,7 +27,7 @@
 #include <vector>
 
 
-#ifdef _LOGGER
+#ifdef _MCA_LOGGER
 
 #include <mcarray/mcaloggerImpl.h>
 
@@ -69,6 +69,9 @@
 #define DEBUG_STREAM_ONCE(x)
 #endif
 
+#ifndef SET_LOG_LEVEL
+#define SET_LOG_LEVEL(x)
+#endif
 
 #endif
 
