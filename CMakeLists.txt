@@ -23,9 +23,9 @@ endif(DEBUG)
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-#find_package(Boost REQUIRED COMPONENTS system filesystem)
 find_package(DSPONE REQUIRED)
 find_package(WIPP REQUIRED)
+find_package(SNDFILE REQUIRED)
 
 
 # if (Boost_FOUND)
@@ -60,8 +60,9 @@ add_library(${PROJECT_NAME} SHARED
     src/mcarray/BinauralLocalisation.cpp 
     src/mcarray/SourceLocalisation.cpp 
     src/mcarray/MultibandBinarualLocalisation.cpp 
-
 )
+
+
 
 set_target_properties(${PROJECT_NAME}
 PROPERTIES
@@ -93,7 +94,6 @@ install(TARGETS ${PROJECT_NAME}
 
 ## Mark cpp header files for installation
 install(FILES
-  
   DESTINATION ${INCLUDE_DESTINATION}
   COMPONENT dev
   )

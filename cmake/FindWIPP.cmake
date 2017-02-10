@@ -5,11 +5,11 @@
 #  WIPP_LIBRARIES - The libraries needed to use Verbio
 
 
-find_path(WIPP_INCLUDE_DIR wipp/wipp.h)
-find_library(WIPP_LIBRARY wipp)
+find_path(WIPP_INCLUDE_DIRS wipp/wipp.h)
+find_library(WIPP_LIBRARIES wipp)
 
-list(APPEND WIPP_REQUIRED_VARS WIPP_INCLUDE_DIR)
-list(APPEND WIPP_REQUIRED_VARS WIPP_LIBRARY)
+list(APPEND WIPP_REQUIRED_VARS WIPP_INCLUDE_DIRS)
+list(APPEND WIPP_REQUIRED_VARS WIPP_LIBRARIES)
 
 include(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(WIPP
