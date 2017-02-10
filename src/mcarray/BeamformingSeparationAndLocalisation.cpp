@@ -88,7 +88,11 @@ void BeamformingSeparationAndLocalisation::processFrameLocalisation(SignalVector
   {
     _steeringBeamforming.processFrame(analysisFrames, _currentDOA, _prob, _numOfSources, wienerCoefs);
     // We publish only the DOA of the first source.
-    _ptrCallback->setDOA(toDegrees(_currentDOA, _numOfSources), _prob, power, _numOfSources);
+    if (_ptrCallback)
+    {
+      _ptrCallback->setDOA(toDegrees(_currentDOA, _numOfSources), _prob, power, _numOfSources);
+    }
+    DEBUG_STREAM("DOA: " << toDegrees(_currentDOA, _numOfSources));
   }
 }
 
