@@ -73,9 +73,27 @@ SOVERSION ${PROJECT_VERSION_MAJOR}
 
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}
-  ${DSPONE_LIBRARY}
+  ${DSPONE_LIBRARIES}
   ${WIPP_LIBRARIES}
-)
+  )
+
+
+### MCAbeamf
+
+set(MCA_BEAMF "mcbeam")
+add_executable(${MCA_BEAMF}
+    src/programs/mcabeamf.cpp
+    )
+
+set_target_properties(${MCA_BEAMF}
+    PROPERTIES
+    VERSION ${PROJECT_VERSION}
+    )
+
+target_link_libraries(${MCA_BEAMF}
+    ${PROJECT_NAME}
+    ${SNDFILE_LIBRARIES}
+    )
 
 #############
 ## Install ##
