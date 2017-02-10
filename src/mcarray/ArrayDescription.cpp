@@ -257,9 +257,13 @@ ArrayDescription::ElementId ArrayDescription::getId(const ElementId &id) const
 {
   ElementId id_ = -1;
   if (_list.find(id) == _list.end())
+  {
     ERROR_STREAM("No element with id " << id << " present in the array description");
+  }
   else
+  {
     id_ = id;
+  }
   return id_;
 }
 

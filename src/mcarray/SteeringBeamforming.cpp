@@ -50,6 +50,7 @@ void SteeringBeamforming::allocate()
   _prevEnergyInDOA.reset(new BaseType[_numSteps]);
   wipp::setZeros(_prevEnergyInDOA.get(), _numSteps);
   _firstDerivative.reset(new BaseType[_numSteps-1]);
+  _filteredFirstDerivative.reset(new BaseType[_numSteps-1]);
   _secondDerivative.reset(new BaseType[_numSteps-2]);
   _complexCorrelation.reset(new BaseTypeC[_numSteps]);
 }
@@ -161,6 +162,8 @@ void SteeringBeamforming::selectDOA(SignalPtr DOA, SignalPtr prob, int numOfSour
   // Apply median filter to avoid false detections.
   // ippsFilterMedian_64f_I(_firstDerivative.get(), _numSteps-1, 3);
   wipp::median_filter(_firstDerivative.get(), _filteredFirstDerivative.get(), _numSteps-1, 3);
+  wipp::copyBuffer(_filteredFirstDerivative.get(), _firstDerivative.get(), _numSteps-1);
+
 
   // I derivate again y[n] = x[n] - x[n-1]. Positive peaks indicates local maximums in energyInDOA.
   // Negative peaks indicates local minimums in energyInDOA.
