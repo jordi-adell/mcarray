@@ -6,11 +6,6 @@
 
 set(CMAKE_FIND_ROOT_PATH ${CMAKE_INSTALL_PREFIX})
 
-find_path(GUI_H_DIR dspone/dspgui.h)
-if (GUI_H_DIR)
-    set(DSPONE_GUI, true)
-endif(GUI_H_DIR)
-
 find_path(DSPONE_INCLUDE_DIRS dspone/dsp.h)
 find_library(DSPONE_LIBRARIES dspone)
 
@@ -24,3 +19,9 @@ FIND_PACKAGE_HANDLE_STANDARD_ARGS(DSPONE
 
 mark_as_advanced(${DSPONE_REQUIRED_VARS})
 
+find_path(GUI_H_DIR dspone/plot/dspgui.h)
+if (GUI_H_DIR)
+    set(DSPONE_GUI "DSPONE_GUI-FOUND")
+else(GUI_H_DIR)
+    set(DSPONE_GUI "DSPONE_GUI-NOTFOUND")
+endif(GUI_H_DIR)

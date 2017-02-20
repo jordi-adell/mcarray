@@ -6,18 +6,20 @@ set(PROJECT_VERSION_STATUS "-alpha")
 ## Configure compilation ##
 ###########################
 
-
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 if(DEBUG)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0 -g")
+    add_definitions("-D_DEBUG")
     add_definitions("-DMCA_LOGGER=DEBUG")
     message(STATUS "DEBUG mode.")
 else(DEBUG)
   set(OPT_FLAGS, "-O3 -msse4")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPT_FLAGS}")
-  message(STATUS "Optimisation flags: ${OPT_FLAGS}")
+  message(STATUS "RELEASE mode. Optimisation flags: ${OPT_FLAGS}")
 endif(DEBUG)
+
+message(STATUS "CXX FLAGS: ${CMAKE_CXX_FLAGS}")
 
 #############################################
 ## Find modules and configure dependencies ##
@@ -29,10 +31,10 @@ find_package(DSPONE REQUIRED)
 find_package(WIPP REQUIRED)
 find_package(SNDFILE REQUIRED)
 
-
-# if (Boost_FOUND)
-#     add_definitions(-DBOOST_FOUND)
-# endif()
+if (DSPONE_GUI)
+    add_definitions("-DDSPONE_GUI")
+    message(STATUS "Found DSPONE GUI for debug")
+endif(DSPONE_GUI)
 
 include_directories(
   include

@@ -109,9 +109,11 @@ void process_file(dsp::ShortTimeProcess &processor,
       }
     }
 
+
+     /// USe gui here
     int procesed_frames = processor.process(raw_audio_channels, read_frames, raw_output, out_buffer_length);
 
-    std::cout << procesed_frames << " out of " << read_frames << std::endl;
+//    std::cout << procesed_frames << " out of " << read_frames << std::endl;
 
     for (int f = 0; f < procesed_frames; ++f)
     {
@@ -193,9 +195,12 @@ int main(int argc, char *argv[])
   McBeamCallback callback(*os);
   mca::SourceSeparationAndLocalisation sss(sampleRate, array_description, 1);
 
-  auto f_process = std::bind(process_file, _1, snd_file_in, snd_file_out, sf_info_in);
+
 #ifdef DSPONE_GUI
+  dsp::DspGui::thread_processing_run_t f_process = std::bind(process_file, _1, snd_file_in, snd_file_out, sf_info_in);
   dsp::DspGui gui(sss, f_process);
+#else
+  auto f_process = std::bind(process_file, _1, snd_file_in, snd_file_out, sf_info_in);
 #endif
 
   if (os) sss.setCallback(callback);
