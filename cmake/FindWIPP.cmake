@@ -4,6 +4,7 @@
 #  WIPP_INCLUDE_DIRS - The Verbio include directories
 #  WIPP_LIBRARIES - The libraries needed to use Verbio
 
+set(CMAKE_FIND_ROOT_PATH ${CMAKE_INSTALL_PREFIX})
 
 find_path(WIPP_INCLUDE_DIRS wipp/wipp.h)
 find_library(WIPP_LIBRARIES wipp)
