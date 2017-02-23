@@ -27,7 +27,7 @@
 #include <vector>
 
 
-#ifdef _MCA_LOGGER
+#ifdef MCA_LOGGER
 
 #include <mcarray/mcaloggerImpl.h>
 

@@ -26,10 +26,10 @@
 #include <vector>
 #include <memory>
 
-#ifdef _MCA_LOGGER
-#if _MCA_LOGGER
-#undef _MCA_LOGGER
-#define _MCA_LOGGER FATAL
+#ifdef MCA_LOGGER
+#if MCA_LOGGER
+#undef MCA_LOGGER
+#define MCA_LOGGER FATAL
 #endif
 #endif
 
@@ -65,7 +65,7 @@ class Logger
 
 }
 
-#define _logger_ mca::Logger::logger(mca::Logger::_MCA_LOGGER)
+#define _logger_ mca::Logger::logger(mca::Logger::MCA_LOGGER)
 
 #define LOG_STREAM(level, what) {if (_logger_.isEnabled(level)) _logger_.log(level, __FILE__, __LINE__) << what << std::endl;}
 #define DEBUG_STREAM(what) LOG_STREAM(mca::Logger::DEBUG,   what)
