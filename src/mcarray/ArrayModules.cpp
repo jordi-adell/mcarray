@@ -35,7 +35,7 @@ SoundLocalisation::SoundLocalisation(int sampleRate, ArrayDescription microphone
     {
 	FreqGCCBinauralLocalisation *loc = nullptr;
 	loc = new FreqGCCBinauralLocalisation(sampleRate, microphonePositions, usePowerFloor);
-	if (callback)
+	if (callback != NULL)
 	{
 	    loc->setCallback(callback);
 	}
@@ -46,7 +46,7 @@ SoundLocalisation::SoundLocalisation(int sampleRate, ArrayDescription microphone
 	// Carefull, this 512 should not be here !!! I do not know why it is here.
 	BeamformingSeparationAndLocalisation *loc;
 	loc = new BeamformingSeparationAndLocalisation(sampleRate, 512, microphonePositions, 1, true);
-	if (callback)
+	if (callback != NULL)
 	{
 	    loc->setCallback(callback);
 	}
@@ -57,7 +57,7 @@ SoundLocalisation::SoundLocalisation(int sampleRate, ArrayDescription microphone
 
 SoundLocalisation::~SoundLocalisation()
 {
-
+  _impl.reset();
 }
 
 

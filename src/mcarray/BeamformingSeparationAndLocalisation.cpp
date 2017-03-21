@@ -94,6 +94,10 @@ void BeamformingSeparationAndLocalisation::processFrameLocalisation(SignalVector
     }
     DEBUG_STREAM("DOA: " << toDegrees(_currentDOA, _numOfSources));
   }
+  else
+  {
+    TRACE_STREAM("Power is not high enough. Power: " << power << ", floor: " << powerFloor);
+  }
 }
 
 void BeamformingSeparationAndLocalisation::processFrameSeparation(SignalVector &inputFrames, SignalVector &outputFrames)

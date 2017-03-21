@@ -57,7 +57,7 @@ class TemporalGCCBinauralLocalisation : public SoundLocalisationImpl, public dsp
 
 	// Some values calculated in construction and that can not change over time.
 	const int _sampleRate; /**< sample rate of the signals to be processed */
-	const int _ndelays; /**< number of delays in the delay chain */
+	const size_t _ndelays; /**< number of delays in the delay chain */
 	const int _windowSize;
 	const int _analysisLength;
 
