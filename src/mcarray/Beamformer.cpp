@@ -55,7 +55,8 @@ void Beamformer::processFrame(SignalVector &analysisFrames, SignalPtr outputFram
     // Sum all channels multiplied by a phase-ramp according to the delay to be applied over each one.
     for (int c = 0; c < _nchannels; ++c)
     {
-	//ippsVectorRamp_64f(_phase.get(), _fftCCSLength/2, 0, 2*M_PI*_sampleRate/(_fftCCSLength-2)/getSpeedOfSound()*_microphonePositions[c]*cos(DOA+M_PI/2));wipp::ramp(_phase.get(), _fftCCSLength/2, 0, 2*M_PI*_sampleRate/(_fftCCSLength-2)/getSpeedOfSound()*_microphonePositions.getX(c)*cos(DOA+M_PI/2));
+      //	ippsVectorRamp_64f(_phase.get(),  _fftCCSLength/2, 0, 2*M_PI*_sampleRate/(_fftCCSLength-2)/getSpeedOfSound()*_microphonePositions[c]*cos(DOA+M_PI/2));
+	wipp::ramp(_phase.get(), _fftCCSLength/2, 0, 2*M_PI*_sampleRate/(_fftCCSLength-2)/getSpeedOfSound()*_microphonePositions.getX(c)*cos(DOA+M_PI/2));
 	wipp::polar2cart(_ones.get(), _phase.get(), reinterpret_cast<wipp::wipp_complex_t*>(_complexRamp.get()), _fftCCSLength/2);
 	wipp::mult(reinterpret_cast<wipp::wipp_complex_t*>(analysisFrames[c].get()),
 		   reinterpret_cast<wipp::wipp_complex_t*>(_complexRamp.get()),
