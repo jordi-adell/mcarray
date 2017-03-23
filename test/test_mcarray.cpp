@@ -119,14 +119,14 @@ class TestMeanLocalisationCallback : public LocalisationCallback
     {
       double mean = 0;
       double var = 0;
-      double stddev = 0;
+      //      double stddev = 0;
 
 
       if (_count != 0)
       {
 	mean = _sum/_count;
 	var = _sum2/_count - mean*mean;
-	stddev = sqrt(var);
+	//	stddev = sqrt(var);
       }
 
       DEBUG_STREAM("*** Results: mean " << mean << " stddev " << stddev);
@@ -878,7 +878,7 @@ void testLocalisationAndSeparationCore(std::string file, dsp::ShortTimeProcess *
       {
 	for (unsigned int channel = 0; channel < channels.size(); ++channel)
 	{
-	  BaseType16s *ptr = output[channel].get();
+	  //	  BaseType16s *ptr = output[channel].get();
 	  //	  ofs.write(reinterpret_cast<char*>(&ptr[pos]), bytesPerFrame());
 	}
       }
@@ -926,8 +926,8 @@ void testSpatialMaskingCore(dsp::ShortTimeProcess *masking)
 
   wipp::copyBuffer(interestLeft,  signalLeft,  buffersize);
   wipp::copyBuffer(interestRight, signalRight, buffersize);
-  wipp::copyBuffer(interferenceLeft,  signalLeft,  buffersize);
-  wipp::copyBuffer(interferenceRight, signalRight, buffersize);
+  wipp::add(interferenceLeft,  signalLeft,  buffersize);
+  wipp::add(interferenceRight, signalRight, buffersize);
 
   std::vector<BaseType16s*> signal, output;
   signal.push_back(signalLeft);
