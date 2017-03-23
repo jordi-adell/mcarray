@@ -40,7 +40,7 @@ namespace mca {
 // nBins + 1 is to store the residual of the FB.
 BinauralMaskingImpl::BinauralMaskingImpl(int samplerate, double microDistance, float lowFreq, float highFreq, MaskingMethod mmethod) :
   ShortTimeProcess(calculateWindowSizeFromSampleRate(samplerate, _frameRate),
-		   calculateWindowSizeFromSampleRate(samplerate, _frameRate)*(_nBins+1),
+		   calculateWindowSizeFromSampleRate(samplerate, _frameRate)*(_nBins),
 		   2),
   _fftOrder(calculateOrderFromSampleRate(samplerate, _frameRate)),
   _sampleRate(samplerate),
@@ -92,7 +92,7 @@ void BinauralMaskingImpl::frameAnalysis(BaseType *inFrame, BaseType *analysis, i
     filter = _filterBankLeft.get();
   else
     filter = _filterBankRight.get();
-  filter->filterBuffer(inFrame, &analysis[_nBins*frameLength] , analysis, frameLength, analysisLength);
+  filter->filterBuffer(inFrame, analysis, frameLength, analysisLength);
 }
 
 

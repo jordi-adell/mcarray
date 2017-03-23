@@ -90,8 +90,8 @@ void FastBinauralMasking::init()
 	throw(MCArrayException("Binaural masking is only working for 2 channels."));
     }
 
-	      //    _coeficientsLength = _nBins * ( (1 << (_fftOrder-1)) + 1 );
-    _coeficientsLength = getAnalysisLength() * _nBins;
+    _coeficientsLength = _nBins * ( (1 << (_fftOrder-1)) + 1 );
+    int analisys_length = getAnalysisLength() + 2;
     _filterBank.reset(new dsp::FilterBankFFTWMelScale(_fftOrder, _nBins, _sampleRate, _minFreq, _maxFreq));
     _filterCoeficients.reset(new BaseTypeC[_coeficientsLength]);
     BaseType coefs[_coeficientsLength];
@@ -109,10 +109,10 @@ void FastBinauralMasking::init()
 
     _shortTimePower.reset(new BaseType[_nBins]);
     _noiseEstimatePower.reset(new BaseType[_nBins]);
-    _fftLeftFrame.reset(new BaseType[getAnalysisLength()]);
-    _fftRightFrame.reset(new BaseType[getAnalysisLength()]);
-    _outLeftFrame.reset(new BaseType[getAnalysisLength()]);
-    _outRightFrame.reset(new BaseType[getAnalysisLength()]);
+    _fftLeftFrame.reset(new BaseType[analisys_length]);
+    _fftRightFrame.reset(new BaseType[analisys_length]);
+    _outLeftFrame.reset(new BaseType[analisys_length]);
+    _outRightFrame.reset(new BaseType[analisys_length]);
 
     wipp::setZeros(_shortTimePower.get()    , _nBins);
     wipp::setZeros(_noiseEstimatePower.get(), _nBins);
