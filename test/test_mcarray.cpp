@@ -33,7 +33,6 @@
 #include <mcarray/FastBinauralMasking.h>
 #include <mcarray/microhponeArrayHelpers.h>
 #include <mcarray/ArrayDescription.h>
-#include <mcarray/mcaplot.h>
 
 #include <dspone/algorithm/fft.h>
 #include <dspone/filter/BandPassFIRFilter.h>
