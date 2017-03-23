@@ -109,11 +109,7 @@ void process_file(dsp::ShortTimeProcess &processor,
       }
     }
 
-
-     /// USe gui here
     int procesed_frames = processor.process(raw_audio_channels, read_frames, raw_output, out_buffer_length);
-
-//    std::cout << procesed_frames << " out of " << read_frames << std::endl;
 
     for (int f = 0; f < procesed_frames; ++f)
     {
@@ -182,7 +178,9 @@ int main(int argc, char *argv[])
     }
   }
 
-  std::vector<double> mics_positions = {0, 1, 3.5, 4.5};
+  //  std::vector<double> mics_positions = {0, 1, 3.5, 4.5};
+  std::vector<double> mics_positions = {-2.25, -1.25, 1.25, 2.25};
+
   mca::ArrayDescription array_description = mca::ArrayDescription::make_linear_array_description(mics_positions);
 
   SF_INFO sf_info_in, sf_info_out;
@@ -193,7 +191,7 @@ int main(int argc, char *argv[])
 
   int sampleRate = sf_info_in.samplerate;
   McBeamCallback callback(*os);
-  mca::SourceSeparationAndLocalisation sss(sampleRate, array_description, 1);
+  mca::SourceSeparationAndLocalisation sss(sampleRate, array_description, 1, false);
 
 
 #ifdef DSPONE_GUI
@@ -210,7 +208,7 @@ int main(int argc, char *argv[])
 
     dsp::ShortTimeProcess *p = reinterpret_cast<dsp::ShortTimeProcess*>(&sss);
 #ifdef DSPONE_GUI
-    gui.start();
+    gui.start(0);
 #else
       (f_process)(sss);
 #endif
